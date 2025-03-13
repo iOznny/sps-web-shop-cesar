@@ -1,0 +1,48 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# Dependencias
+node_modules/
+bower_components/
+
+# Logs y bases de datos
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# Archivos de configuración local
+.env
+.env.local
+.env.*.local
+
+# Archivos de compilación
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Archivos de empaquetado
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Directorios de cobertura y pruebas
+coverage/
+.coverage
