@@ -25,7 +25,6 @@
       "@Interfaces/*": ["./app/interfaces/*"],
       "@Utils/*": ["./app/utils/*"],
       "@Services/index": ["./app/services/index.ts"],
-      "@Constants/index": ["./app/constants/index.ts"],
     }
   },
   "include": [

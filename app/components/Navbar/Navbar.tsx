@@ -1,3 +1,4 @@
+'use client';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react';
@@ -65,7 +66,7 @@ const Navbar = () => {
                                             className={ classNames(
                                                 item.current ? 
                                                 'rounded-md bg-red-100 text-black' :
-                                                'hover:bg-black-700 hover:text-black' ,
+                                                'text-black' ,
                                                 'px-3 py-2 text-sm font-medium',
                                             )}
                                         >

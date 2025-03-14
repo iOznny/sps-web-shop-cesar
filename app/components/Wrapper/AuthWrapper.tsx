@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 
 /* Views */
 import Login from '../../views/login/page';
