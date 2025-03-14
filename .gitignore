@@ -9,6 +9,7 @@ Thumbs.db
 *.swo
 *.swn
 *.bak
+.next
 
 # Dependencias
 node_modules/
@@ -21,7 +22,6 @@ bower_components/
 *.db
 
 # Archivos de configuración local
-.env
 .env.local
 .env.*.local
 
