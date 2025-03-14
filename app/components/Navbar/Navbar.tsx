@@ -1,35 +1,20 @@
 'use client';
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Disclosure, DisclosureButton, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react';
 
 /* Next */
 import Link from 'next/link';
 import Image from 'next/image';
 
-/* Interfaces */
-import { INavigation } from '@/app/interfaces/INavigation';
+/* Utils */
+import { RouteNavigatorNavbar } from '@/app/utils/router';
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+/* Hooks */
+import { useClassNames } from '@/app/hooks';
 
-const Navbar = () => {
-    const [navigation, setNavigation] = useState<INavigation[]>([
-        { name: 'Dashboard', href: '/views/dashboard', current: true, show: true },
-        { name: 'Detalles', href: '/views/detail', current: false, show: true },
-        { name: 'Carrito', href: '/views/detail', current: false, show: true },
-    ]);
+const Navbar = () => {    
+    const classNames = useClassNames();
 
-    const setActive = (href: string) => {
-        setNavigation((prevNav) =>
-            prevNav.map((item) => ({
-                ...item,
-                current: item.href === href,
-            }))
-        );
-    };
-    
     return (
         <>
             <Disclosure as="nav" className="bg-white">
@@ -46,71 +31,59 @@ const Navbar = () => {
 
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="flex shrink-0 items-center">
-                                <Image
-                                    src="/assets/eagle-wear.png"
-                                    alt="Eagle Wear"
-                                    width={ 300 }
-                                    height={ 300 }
-                                    className="mx-auto h-10 w-auto"
-                                />
+                                
+                                <Link href="/">
+                                    <Image    
+                                        src="/assets/eagle-wear.png"
+                                        alt="Eagle Wear"
+                                        width={ 300 }
+                                        height={ 300 }
+                                        className="mx-auto h-10 w-auto"
+                                    />
+                                </Link>
+
                             </div>
 
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    { navigation.map((item) => (
-                                        item.show ?
-                                        <Link 
-                                            key={ item.name } 
-                                            href={ item.href }
-                                            onClick={() => setActive(item.href)}
-                                            className={ classNames(
-                                                item.current ? 
-                                                'rounded-md bg-red-100 text-black' :
-                                                'text-black' ,
-                                                'px-3 py-2 text-sm font-medium',
-                                            )}
-                                        >
-                                            { item.name }
-                                        </Link> : ''                                  
-                                    ))}
+                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.login }>Login</Link>
+                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.home }>Inicio</Link>
+                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.detail }>Detail</Link>
+                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.shop }>Shopping</Link>
                                 </div>
                             </div>
                         </div>
 
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button type="button" className="relative rounded-full p-1 text-gray-400  hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
-                                <Link onClick={() => setActive('/views/shopping')} href={'/views/shopping'} className="group -m-2 flex items-center p-2" >
+                                <Link href={ RouteNavigatorNavbar.shop } className="group -m-2 flex items-center p-2">
                                     <ShoppingBagIcon aria-hidden="true" className="size-6 shrink-0 text-grey-700 group-hover:text-black" />
-                                    <span className="ml-2 text-sm font-medium text-grey-700 group-hover:text-black">0</span>
-                                    <span className="sr-only">items in cart, view bag</span>
                                 </Link>
                             </button>
 
                             {/* Profile Dropdown */}
                             <Menu as="div" className="relative ml-3">
-                                <div>
-                                    <MenuButton className="relative flex rounded-full">
-                                        <span className="absolute -inset-1.5" />
-                                        <span className="sr-only">Open user menu</span>
+                                <MenuButton className="relative flex rounded-full">
+                                    <span className="absolute -inset-1.5" />
+                                    <span className="sr-only">Open user menu</span>
 
-                                        <div className="flex -space-x-1 overflow-hidden">
-                                            <Image
-                                                src={'/assets/profiles/profile.avif'}
-                                                alt='Profile Image'
-                                                width={100}
-                                                height={100}
-                                                className="inline-block size-8 rounded-full ring-1 ring-white"
-                                            />
-                                            <Image
-                                                src={'/assets/sps-logo.png'}
-                                                alt='Profile Image'
-                                                width={100}
-                                                height={100}
-                                                className="inline-block size-8 rounded-full ring-1 ring-white"
-                                            />
-                                        </div>
-                                    </MenuButton>
-                                </div>
+                                    <div className="flex -space-x-1 overflow-hidden">
+                                        <Image
+                                            src={'/assets/profiles/profile.avif'}
+                                            alt='Profile Image'
+                                            width={100}
+                                            height={100}
+                                            className="inline-block size-8 rounded-full ring-1 ring-white"
+                                        />
+                                        <Image
+                                            src={'/assets/sps-logo.png'}
+                                            alt='Profile Image'
+                                            width={100}
+                                            height={100}
+                                            className="inline-block size-8 rounded-full ring-1 ring-white"
+                                        />
+                                    </div>
+                                </MenuButton>
 
                                 <MenuItems 
                                     transition 
@@ -132,11 +105,11 @@ const Navbar = () => {
                                         data-enter:ease-out 
                                         data-leave:duration-75 
                                         data-leave:ease-in"
-                                    >
+                                >
                                     
                                     <MenuItem>
                                         <a 
-                                            href="#" 
+                                            href={ RouteNavigatorNavbar.logout }
                                             onClick={ () => {
                                                 console.log("logout");
                                                 /* localStorage.removeItem('token');
@@ -152,7 +125,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <DisclosurePanel className="sm:hidden"> 
+                {/* <DisclosurePanel className="sm:hidden"> 
                     <div className="space-y-1 px-2 pt-2 pb-3">
                         { navigation.map((item) => (
                             <DisclosureButton
@@ -171,7 +144,7 @@ const Navbar = () => {
                             </DisclosureButton>
                         ))}
                     </div>
-                </DisclosurePanel>
+                </DisclosurePanel> */}
             </Disclosure>
         </>
     )

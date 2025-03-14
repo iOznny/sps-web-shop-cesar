@@ -4,7 +4,7 @@ import {
   IDashboardSortOptions, 
 } from "@/app/interfaces/IDashboard";
 
-export const DashboardProducts: IDashboardProducts[] = [
+export const dashboardProducts: IDashboardProducts[] = [
   {
     id: 1,
     name: 'Basic Tee',
@@ -52,13 +52,13 @@ export const DashboardProducts: IDashboardProducts[] = [
   },
 ];
   
-export const sortOptions: IDashboardSortOptions[] = [
+export const dashboardSortOptions: IDashboardSortOptions[] = [
   { name: 'Mejor calificación', href: '#', current: true },
   { name: 'Precio: Bajo a alto', href: '#', current: true },
   { name: 'Precio: Alto a bajo', href: '#', current: true },
 ];
 
-export const filters: IDashboardFilters[] = [
+export const dashboardFilters: IDashboardFilters[] = [
   {
     id: 'color',
     name: 'Colores',

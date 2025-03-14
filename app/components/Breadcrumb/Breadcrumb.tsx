@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 /* Interfaces */
-import { IDetailBreadcrumb, IDetailProduct } from "@/app/interfaces/IDetail";
+import { IDetailBreadcrumb } from "@/app/interfaces/IDetail";
 
 interface Props {
     breadcrumbs: IDetailBreadcrumb[];
