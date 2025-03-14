@@ -3,6 +3,8 @@ import "./globals.css";
 
 /* Components */
 import { AuthWrapper } from "@/app/components/index";
+import Layout from "./components/Layout/Layout";
+import Dashboard from "./page";
 
 export const metadata: Metadata = {
   title: "Eagle Wear",
@@ -13,9 +15,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={'antialiased'}>
-        <AuthWrapper>  
-          <main>{ children }</main>
-        </AuthWrapper>
+        <Layout>
+          { children }
+        </Layout>
       </body>
     </html>
   );
