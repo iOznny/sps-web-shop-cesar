@@ -18,7 +18,7 @@ const Navbar = () => {
     const [navigation, setNavigation] = useState<INavigation[]>([
         { name: 'Dashboard', href: '/views/dashboard', current: true, show: true },
         { name: 'Detalles', href: '/views/detail', current: false, show: true },
-        { name: 'Carrito', href: '/views/detail', current: false, show: false },
+        { name: 'Carrito', href: '/views/detail', current: false, show: true },
     ]);
 
     const setActive = (href: string) => {
@@ -89,17 +89,26 @@ const Navbar = () => {
                             {/* Profile Dropdown */}
                             <Menu as="div" className="relative ml-3">
                                 <div>
-                                    <MenuButton className="relative flex rounded-full bg-red-800 text-sm focus:ring-red focus:ring-1 focus:outline-hidden">
+                                    <MenuButton className="relative flex rounded-full">
                                         <span className="absolute -inset-1.5" />
                                         <span className="sr-only">Open user menu</span>
 
-                                        <Image
-                                            src={'/assets/profiles/profile.avif'}
-                                            alt='Profile Image'
-                                            width={100}
-                                            height={100}
-                                            className="size-8 rounded-full"
-                                        />
+                                        <div className="flex -space-x-1 overflow-hidden">
+                                            <Image
+                                                src={'/assets/profiles/profile.avif'}
+                                                alt='Profile Image'
+                                                width={100}
+                                                height={100}
+                                                className="inline-block size-8 rounded-full ring-1 ring-white"
+                                            />
+                                            <Image
+                                                src={'/assets/sps-logo.png'}
+                                                alt='Profile Image'
+                                                width={100}
+                                                height={100}
+                                                className="inline-block size-8 rounded-full ring-1 ring-white"
+                                            />
+                                        </div>
                                     </MenuButton>
                                 </div>
 
@@ -124,18 +133,7 @@ const Navbar = () => {
                                         data-leave:duration-75 
                                         data-leave:ease-in"
                                     >
-                                    { navigation.map((item) => (
-                                        <MenuItem>
-                                            <Link 
-                                                key={ item.name } 
-                                                href={ item.href }
-                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                            >
-                                                { item.name }
-                                            </Link>                                   
-                                        </MenuItem>
-                                    ))}
-
+                                    
                                     <MenuItem>
                                         <a 
                                             href="#" 

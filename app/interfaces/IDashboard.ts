@@ -14,11 +14,6 @@ export interface IDashboardSortOptions {
     current: boolean;
 }
 
-export interface IDashboardSubCategories {
-    name: string;
-    href: string;
-}
-
 export interface IDashboardFilters {
     id: string;
     name: string;
