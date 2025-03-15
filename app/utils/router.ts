@@ -1,4 +1,4 @@
-import { INavigation } from "../interfaces/INavigation";
+import { INavigation } from "@Interfaces/INavigation";
 
 export const RouteNavigatorNavbar: INavigation = {
   home: "/",

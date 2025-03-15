@@ -7,10 +7,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 /* Utils */
-import { RouteNavigatorNavbar } from '@/app/utils/router';
+import { RouteNavigatorNavbar } from '@Utils/router';
 
 /* Hooks */
-import { useClassNames } from '@/app/hooks';
+import { useClassNames } from '@Hooks/index';
 
 const Navbar = () => {    
     const classNames = useClassNames();

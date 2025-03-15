@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 /* Components */
-import { AuthWrapper } from "@/app/components/index";
-import Layout from "./components/Layout/Layout";
-import Dashboard from "./page";
+import { Layout } from "@Components/index";
 
 export const metadata: Metadata = {
   title: "Eagle Wear",
