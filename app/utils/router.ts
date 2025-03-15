@@ -5,6 +5,6 @@ export const RouteNavigatorNavbar: INavigation = {
   detail: "/pages/detail",
   shop: "/pages/shopping",
   login: "/pages/auth/login",
-  logout: "/pages/auth/logout",
+  register: "/pages/auth/register",
 };
   
