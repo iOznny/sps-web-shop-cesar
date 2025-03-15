@@ -1,11 +1,7 @@
 'use client'
-
-import { Radio, RadioGroup } from '@headlessui/react'
 import { StarIcon, ShoppingCartIcon } from '@heroicons/react/20/solid'
+import { Radio, RadioGroup } from '@headlessui/react'
 import { useState } from 'react'
-
-/* Components */
-import { Breadcrumb } from '@/app/components/index';
 
 /* Constants */
 import { DetailProduct, DetailProductReviews } from '@/app/constants/Detail/Detail'
@@ -22,13 +18,14 @@ export default function Detail() {
   return (
     <div className="bg-white">
       <div className="pt-6">
-
         {/* Breadcrumb */}
-        <Breadcrumb 
-          breadcrumbs={ DetailProduct.breadcrumbs }
-          name={ DetailProduct.name }
-          href={ DetailProduct.href }
-        />
+        <nav aria-label="Breadcrumb">
+          <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+            <li className="text-sm  text-gray-500">
+              { DetailProduct.name }
+            </li>
+          </ol>
+        </nav>
 
         {/* Image Gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
@@ -179,7 +176,7 @@ export default function Detail() {
                   e.preventDefault();
                   console.log('Add cart');
                 }}
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-3 text-base font-medium text-white hover:bg-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-500 px-8 py-3 text-base font-medium text-white  focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden"
               >
                 Agregar {' '} <span><ShoppingCartIcon className="size-4" /></span>
               </button>

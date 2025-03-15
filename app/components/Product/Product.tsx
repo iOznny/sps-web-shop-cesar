@@ -1,14 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /* Interfaces */
 import { IDashboardProducts } from "@/app/interfaces/IDashboard";
-import Link from "next/link";
+
+/* Utils */
+import { RouteNavigatorNavbar } from "@/app/utils/router";
 
 interface Props {
     product: IDashboardProducts
 }
 
-export default function ProductItem({ product }: Props) {
+const ProductItem = ({ product }: Props) => {
     return (
         <div className="group relative">
             <Image
@@ -20,15 +23,16 @@ export default function ProductItem({ product }: Props) {
             />
 
             <div className="mt-4 flex justify-between">
-                <h3 className="text-sm text-gray-700">
-                    <a href={ product.href }>
-                    <span aria-hidden="true" className="absolute inset-0" />{ product.name }</a>
-                </h3>
-
+                <h3 className="text-sm text-gray-700">{ product.name }</h3>
                 <p className="mt-1 text-sm text-gray-500">{ product.color }</p>
             </div>
 
             <p className="text-sm font-medium text-gray-900">{ product.price }</p>
+            <p className="text-sm font-medium text-right cursor-pointer text-red-400">
+                <Link href={ String(RouteNavigatorNavbar.detail) }>Ver más</Link>
+            </p>
         </div>
     )
 }
+
+export default ProductItem;
