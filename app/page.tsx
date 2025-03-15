@@ -1,6 +1,5 @@
 'use client'
 import { ChevronDownIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
-import Image from 'next/image';
 
 import {
   Disclosure,
@@ -13,18 +12,17 @@ import {
 } from '@headlessui/react';
 
 /* Constants */
-import { 
-  dashboardProducts, 
+import {
   dashboardFilters, 
   dashboardSortOptions,
 } from '@/app/constants/Dashboard/Dashboard';
+import { shoppingProducts } from '@/app/constants/Shopping/Shopping';
 
 /* Components */
-import { Pagination } from '@/app/components/index';
+import { Pagination, ProductItem } from '@Components/index';
 
 /* Hooks */
-import { useClassNames } from './hooks';
-import ProductItem from './components/Product/Product';
+import { useClassNames } from '@Hooks/index';
 
 export default function Dashboard() {
   const classNames = useClassNames();
@@ -151,7 +149,7 @@ export default function Dashboard() {
               <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                   <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    { dashboardProducts.map((product, index) => (
+                    { shoppingProducts.map((product, index) => (
                       <ProductItem product={ product } key={ index } />
                     ))}
                   </div>

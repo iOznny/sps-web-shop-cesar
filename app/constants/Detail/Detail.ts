@@ -5,7 +5,7 @@ import {
   IDetailProduct,
   IDetailBreadcrumb,
   IDetailProductReview,
-} from "@/app/interfaces/IDetail";
+} from "@Interfaces/IDetail";
 
 const breadcrumbs: IDetailBreadcrumb[] = [
   { id: 1, name: 'Hombre', href: '#' },
@@ -55,7 +55,7 @@ const highlights: string[] = [
   'Ultra-soft 100% cotton',
 ];
 
-export const DetailProduct: IDetailProduct = {
+export const detailProduct: IDetailProduct = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
   href: '#',
@@ -68,7 +68,7 @@ export const DetailProduct: IDetailProduct = {
   details: 'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
 }
 
-export const DetailProductReviews: IDetailProductReview = { 
+export const detailProductReviews: IDetailProductReview = { 
   href: '#', 
   average: 4, 
   totalCount: 117

@@ -1,10 +1,10 @@
-import { INavigation } from "../interfaces/INavigation";
+import { INavigation } from "@Interfaces/INavigation";
 
 export const RouteNavigatorNavbar: INavigation = {
   home: "/",
   detail: "/pages/detail",
   shop: "/pages/shopping",
   login: "/pages/auth/login",
-  logout: "/pages/auth/logout",
+  register: "/pages/auth/register",
 };
   
