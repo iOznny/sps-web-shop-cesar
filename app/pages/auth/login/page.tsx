@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 /* Utils */
-import { authSchemaValidator } from "@Utils/validators";
+import { authLoginValidator } from "@Utils/validators";
 
 /* Components */
 import { SnackbarAlert } from "@Components/index";
@@ -16,7 +16,7 @@ import { SnackbarAlert } from "@Components/index";
 import { AuthService } from "@Services/index";
 
 /* Interfaces */
-import { IAuthLoginUser, IAuthMessageResponse } from "@Interfaces/IAuth";
+import { IAuthLoginUser, IAuthMessageResponse, IAuthRegisterUser } from "@Interfaces/IAuth";
 
 export default function Login() {
   const router = useRouter();
@@ -24,18 +24,29 @@ export default function Login() {
   const [messageOnSubmit, setMessageOnSubmit] = useState<IAuthMessageResponse>({ message: '', severity: "success" });
 
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
-    resolver: zodResolver(authSchemaValidator),
+    resolver: zodResolver(authLoginValidator),
   });
 
-  const onSubmit = (request: any) => {
-    console.log(request)
-    
+  const onSubmit = (request: IAuthLoginUser) => {
+    AuthService.login(request).then(() => {
+      setMessageOnSubmit({
+        message: 'Bienvenido, @',
+        severity: 'success'
+      });
+
+      router.push('/');
+    }, (error: string) => {
+      setMessageOnSubmit({
+        message: error,
+        severity: 'error'
+      });
+    });
   };
 
   return (
     <>
       <div className="w-full h-screen bg-white flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="flex-1 overflow-y-auto sm:px-8">
           <Image 
             src="/assets/eagle-wear.png" 
             alt="Eagle Wear" 
@@ -43,24 +54,24 @@ export default function Login() {
             height={300} 
             className="mx-auto" 
           />
-          
-          <h2 className="mt-10 text-center text-2xl font-bold text-black">Inicia sesión en tu cuenta</h2>
+
+          <h2 className="mt-10 text-center text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
         </div>
-        
+
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={ handleSubmit((data) => onSubmit('awdawdaw')) } className="space-y-6">
+          <form onSubmit={ handleSubmit((data) => onSubmit({ ...data })) } className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-black">Correo Electrónico</label>
+              <label htmlFor="username" className="block text-sm font-medium text-black">Nombre de Usuario</label>
               <input
-                id="email"
-                type="email"
-                placeholder="a@b.c"
-                value={'john@gmail.com'}
-                {...register("email")}
+                id="username"
+                type="text"
+                placeholder="Usuario"
+                value={'johnd'}
+                {...register("username")}
                 className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
               />
 
-              { errors.email && <p className="text-red-500 text-sm">{ errors.email.message }</p> }
+              { errors.username && <p className="text-red-500 text-sm">{ errors.username.message }</p> }
             </div>
 
             <div>
@@ -69,7 +80,7 @@ export default function Login() {
                 id="password"
                 type="password"
                 placeholder="********"
-                value={'Password1@'}
+                value={'m38rmF$'}
                 {...register("password")}
                 className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
               />
@@ -77,7 +88,7 @@ export default function Login() {
               { errors.password && <p className="text-red-500 text-sm">{ errors.password.message }</p> }
             </div>
 
-            <button onClick={() => setShowSnackbar(true) } type="submit" className="w-full bg-red-500 text-white py-2 rounded-md" >
+            <button onClick={() => setShowSnackbar(true) } type="submit" className="w-full bg-red-500 text-white py-2 rounded-md" disabled={ isSubmitting }>
               { isSubmitting ? "Cargando..." : "Iniciar Sesión" }
             </button>
           </form>

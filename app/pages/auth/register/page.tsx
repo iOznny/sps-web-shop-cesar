@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 /* Utils */
-import { authSchemaValidator } from "@Utils/validators";
+import { authRegisterValidator } from "@Utils/validators";
 
 /* Interfaces */
 import { IAuthMessageResponse, IAuthRegisterUser } from "@Interfaces/IAuth";
@@ -24,13 +24,13 @@ export default function Register() {
   const [messageOnSubmit, setMessageOnSubmit] = useState<IAuthMessageResponse>({ message: '', severity: "success" });
 
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
-    resolver: zodResolver(authSchemaValidator),
+    resolver: zodResolver(authRegisterValidator),
   });
 
   const onSubmit = (request: IAuthRegisterUser) => {
     AuthService.register(request).then(() => {
       setMessageOnSubmit({
-        message: 'Registro exitoso, bienvenid@.',
+        message: 'Registro exitoso, bienvenido.',
         severity: 'success'
       });
 

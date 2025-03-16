@@ -8,20 +8,27 @@ import {
 
 const ErrorMessages = {
     errorInRegister: "Error en el registro.",
+    errorInLogin: "Error al autenticar sus datos, por favor verifiquelos.",
     tryAgain: "Ocurrio une error inesperado, por favor intente nuevamente.",
 }
 
-const AuthService = {
-    setInformation: (request: IAuthLoginUser | IAuthRegisterUser) => localStorage.setItem('user', JSON.stringify(request)),
-    login: async (request: IAuthLoginUser) => {
-        /* try {
-            const response = await axios.post(`${ process.env.REACT_APP_URL }/auth/login`, JSON.stringify(request));
+const headers = {
+    "Content-Type": "application/json"
+}
 
-            console.log(response);
-            // AuthService.setInformation(request);
+const AuthService = {
+    setInformation: (key: string, request: any) => localStorage.setItem(key, JSON.stringify(request)),
+    login: async (request: IAuthLoginUser) => {
+        try {
+            const response = await axios.post(`${ process.env.REACT_APP_URL }/auth/login`, JSON.stringify(request), {
+                headers
+            });
+
+            AuthService.setInformation('token', response.data.token);
+            AuthService.setInformation('user', request.username);
             
             if (response.status !== 200) {
-                throw new Error(ErrorMessages.errorInRegister);
+                throw new Error(ErrorMessages.errorInLogin);
             }
             
             return response.data;
@@ -31,12 +38,15 @@ const AuthService = {
             }
 
             throw ErrorMessages.tryAgain;
-        } */
+        }
     },
     register: async (request: IAuthRegisterUser) => {
         try {
-            const response = await axios.post(`${ process.env.REACT_APP_URL }/users`, JSON.stringify(request));
-            AuthService.setInformation(request);
+            const response = await axios.post(`${ process.env.REACT_APP_URL }/users`, JSON.stringify(request), {
+                headers
+            });
+
+            AuthService.setInformation('user', request.username);
             
             if (response.status !== 200) {
                 throw new Error(ErrorMessages.errorInRegister);
