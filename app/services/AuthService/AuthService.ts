@@ -6,21 +6,19 @@ import {
     IAuthRegisterUser 
 } from "@Interfaces/IAuth";
 
-const ErrorMessages = {
-    errorInRegister: "Error en el registro.",
-    errorInLogin: "Error al autenticar sus datos, por favor verifiquelos.",
-    tryAgain: "Ocurrio une error inesperado, por favor intente nuevamente.",
-}
+import { MessagesServices } from '@/app/constants/Service/Service';
 
 const headers = {
     "Content-Type": "application/json"
 }
 
+const API_URL = process.env.REACT_APP_URL;
+
 const AuthService = {
     setInformation: (key: string, request: any) => localStorage.setItem(key, JSON.stringify(request)),
     login: async (request: IAuthLoginUser) => {
         try {
-            const response = await axios.post(`${ process.env.REACT_APP_URL }/auth/login`, JSON.stringify(request), {
+            const response = await axios.post(`${ API_URL }/auth/login`, JSON.stringify(request), {
                 headers
             });
 
@@ -28,7 +26,7 @@ const AuthService = {
             AuthService.setInformation('user', request.username);
             
             if (response.status !== 200) {
-                throw new Error(ErrorMessages.errorInLogin);
+                throw new Error(MessagesServices.errorInLogin);
             }
             
             return response.data;
@@ -37,19 +35,19 @@ const AuthService = {
                 throw error.message;
             }
 
-            throw ErrorMessages.tryAgain;
+            throw MessagesServices.tryAgain;
         }
     },
     register: async (request: IAuthRegisterUser) => {
         try {
-            const response = await axios.post(`${ process.env.REACT_APP_URL }/users`, JSON.stringify(request), {
+            const response = await axios.post(`${ API_URL }/users`, JSON.stringify(request), {
                 headers
             });
 
             AuthService.setInformation('user', request.username);
             
             if (response.status !== 200) {
-                throw new Error(ErrorMessages.errorInRegister);
+                throw new Error(MessagesServices.errorInRegister);
             }
             
             return response.data;
@@ -58,7 +56,7 @@ const AuthService = {
                 throw error.message;
             }
 
-            throw ErrorMessages.tryAgain;
+            throw MessagesServices.tryAgain;
         }
     },
     logout: () => {
