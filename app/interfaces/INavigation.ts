@@ -1,3 +1,3 @@
 export interface INavigation {
-    [ket: string]: string;
+    [key: string]: string;
 }

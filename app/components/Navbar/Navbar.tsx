@@ -5,6 +5,7 @@ import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outli
 /* Next */
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
 
 /* Utils */
 import { RouteNavigatorNavbar } from '@Utils/router';
@@ -12,7 +13,11 @@ import { RouteNavigatorNavbar } from '@Utils/router';
 /* Hooks */
 import { useClassNames } from '@Hooks/index';
 
-const Navbar = () => {    
+/* Services */
+import { AuthService } from '@Services/index';
+
+export default function Navbar() {    
+    const router = useRouter();
     const classNames = useClassNames();
 
     return (
@@ -113,8 +118,8 @@ const Navbar = () => {
                                             href={ RouteNavigatorNavbar.logout }
                                             onClick={ () => {
                                                 console.log("logout");
-                                                /* localStorage.removeItem('token');
-                                                setIsAuthenticated(false); */
+                                                AuthService.logout();
+                                                router.push(RouteNavigatorNavbar.login);
                                             }}
                                             className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">
                                             Cerrar Sesión
@@ -148,7 +153,5 @@ const Navbar = () => {
                 </DisclosurePanel> */}
             </Disclosure>
         </>
-    )
+    );
 }
-
-export default Navbar;

@@ -25,7 +25,6 @@ export default function Detail() {
   const [selectedColor, setSelectedColor] = useState(detailProduct.colors[0]);
   const [selectedSize, setSelectedSize] = useState(detailProduct.sizes[3]);
 
-
   /* Control Requests */
   useEffect(() => {
     console.log(params.id);
