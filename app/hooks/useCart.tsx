@@ -17,16 +17,18 @@ const useCart = () => {
     const addToCart = (product: IShoppingProducts) => {        
         setCart((prevCart) => {
             const existingItem = prevCart.find((item) => item.id === product.id);
+            let updatedCart;
 
             if (existingItem) {
-                localStorage.setItem("cart", JSON.stringify(prevCart));
-
-                return prevCart.map((item) =>
+                updatedCart = prevCart.map((item) =>
                     item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 );
             } else {
-                return [...prevCart, { ...product, quantity: 1 }];
+                updatedCart = [...prevCart, { ...product, quantity: 1 }];
             }
+
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
+            return updatedCart;
         });
     };
 
@@ -42,11 +44,20 @@ const useCart = () => {
     /* Calculate Total */
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    /* Clean shopping cart  */
+    const removeCart = () => {
+        setCart((prevCart) => {
+            localStorage.removeItem('cart');
+            return [];
+        });
+    }
+
     return { 
         cart,
         addToCart, 
         removeFromCart, 
-        total 
+        total,
+        removeCart
     };
 };
 

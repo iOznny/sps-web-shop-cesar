@@ -12,18 +12,27 @@ import { detailProduct, detailProductReviews } from '@/app/constants/Detail/Deta
 /* Hooks */
 import { useCart, useClassNames } from '@Hooks/index';
 
+/* Components */
+import { SnackbarAlert } from '@Components/index'
+
 export default function Detail() {
   const params = useParams();
-  const hasFetched = useRef(false);
-
-  const classNames = useClassNames();
   const { addToCart } = useCart();
+  const hasFetched = useRef(false);
+  const classNames = useClassNames();
+  
+  const [showSnackbar, setShowSnackbar] = useState(false);
   const [selectedColor, setSelectedColor] = useState(detailProduct.colors[0]);
   const [selectedSize, setSelectedSize] = useState(detailProduct.sizes[3]);
+
 
   /* Control Requests */
   useEffect(() => {
     console.log(params.id);
+
+    
+
+
     hasFetched.current = true;
   }, [params.id]);
 
@@ -181,29 +190,32 @@ export default function Detail() {
                   </RadioGroup>
                 </fieldset>
               </div>
-
+              
               <button
-                type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
+                type="button"
+                onClick={() => {
                   addToCart(shoppingProducts[0]);
-                  console.log(shoppingProducts[0]);
+                  setShowSnackbar(true);
                 }}
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-500 px-8 py-3 text-base font-medium text-white  focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-500 px-8 py-3 text-base font-medium text-white cursor-pointer"
               >
-                Agregar {' '} <span><ShoppingCartIcon className="size-4" /></span>
+                Agregar {' '} <span> <ShoppingCartIcon className="size-4" /></span>
               </button>
+
+              <SnackbarAlert
+                open={ showSnackbar }
+                message="Producto agregado al carrito"
+                severity="success"
+                duration={4000}
+                onClose={() => setShowSnackbar(false) }
+              />
             </form>
           </div>
 
           {/* Description and details */}
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
-            <div>
-              <h3 className="sr-only">Description</h3>
-
-              <div className="space-y-6">
-                <p className="text-base text-gray-900">{ detailProduct.description }</p>
-              </div>
+            <div className="space-y-6">
+              <p className="text-base text-gray-900">{ detailProduct.description }</p>
             </div>
 
             <div className="mt-10">
