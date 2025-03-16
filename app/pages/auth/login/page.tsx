@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 /* Utils */
-import { loginSchemaValidator } from "@Utils/validators";
+import { authSchemaValidator } from "@Utils/validators";
 
 export default function Login() {
   const router = useRouter();
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
-    resolver: zodResolver(loginSchemaValidator),
+    resolver: zodResolver(authSchemaValidator),
   });
 
   const onSubmit = async (data: any) => {
@@ -59,7 +59,7 @@ export default function Login() {
               className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
             />
 
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            { errors.email && <p className="text-red-500 text-sm">{ errors.email.message }</p> }
           </div>
 
           <div>
@@ -73,7 +73,7 @@ export default function Login() {
               className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
             />
 
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            { errors.password && <p className="text-red-500 text-sm">{ errors.password.message }</p> }
           </div>
 
           <button
