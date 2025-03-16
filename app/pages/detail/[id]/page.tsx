@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation'
 
 /* Constants */
 import { shoppingProducts } from '@/app/constants/Shopping/Shopping'
-import { detailProduct, detailProductReviews } from '@/app/constants/Detail/Detail'
+import { detailProduct } from '@/app/constants/Detail/Detail'
 
 /* Hooks */
 import { useCart, useClassNames } from '@Hooks/index';
@@ -15,23 +15,27 @@ import { useCart, useClassNames } from '@Hooks/index';
 /* Components */
 import { SnackbarAlert } from '@Components/index'
 
+/* Services */
+import { ProductService } from '@Services/index'
+
+/* Interfaces */
+import { IShoppingProducts } from '@Interfaces/IShopping'
+
 export default function Detail() {
   const params = useParams();
   const { addToCart } = useCart();
   const hasFetched = useRef(false);
   const classNames = useClassNames();
   
+  const [product, setProduct] = useState<IShoppingProducts>();
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [selectedColor, setSelectedColor] = useState(detailProduct.colors[0]);
   const [selectedSize, setSelectedSize] = useState(detailProduct.sizes[3]);
 
-  /* Control Requests */
   useEffect(() => {
-    console.log(params.id);
-
-    
-
-
+    ProductService.getProductById(Number(params.id)).then((response) => {
+      setProduct(response);
+    });
     hasFetched.current = true;
   }, [params.id]);
 
@@ -42,36 +46,16 @@ export default function Detail() {
         <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <li className="text-sm  text-gray-500">
-              { detailProduct.name }
+            #{ product?.id } - { product?.category }
             </li>
           </ol>
         </nav>
 
         {/* Image Gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+        <div className="mx-auto mt-6 max-w-2xl lg:grid lg:grid-cols-2">
           <img
-            alt={ detailProduct.images[0].alt }
-            src={ detailProduct.images[0].src }
-            className="hidden size-full rounded-lg object-cover lg:block"
-          />
-
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img
-              alt={ detailProduct.images[1].alt }
-              src={ detailProduct.images[1].src }
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-
-            <img
-              alt={ detailProduct.images[2].alt }
-              src={ detailProduct.images[2].src }
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-          </div>
-          
-          <img
-            alt={ detailProduct.images[3].alt }
-            src={ detailProduct.images[3].src }
+            alt={ product?.title }
+            src={ product?.image }
             className="aspect-4/5 size-full object-cover sm:rounded-lg lg:aspect-auto"
           />
         </div>
@@ -79,13 +63,13 @@ export default function Detail() {
         {/* Product Info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{ detailProduct.name }</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{ product?.title }</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h3 className="text-sm font-medium text-gray-900">Precio</h3>
-            <p className="text-3xl tracking-tight text-gray-900">{ detailProduct.price }</p>
+            <p className="text-3xl tracking-tight text-gray-900">${ product?.price }</p>
 
             {/* Reviews */}
             <div className="mt-6">
@@ -98,16 +82,16 @@ export default function Detail() {
                       key={ rating }
                       aria-hidden="true"
                       className={classNames(
-                        detailProductReviews.average > rating ? 'text-gray-900' : 'text-gray-200',
+                        Number(product?.rating.rate) > rating ? 'text-gray-900' : 'text-gray-200',
                         'size-5 shrink-0',
                       )}
                     />
                   ))}
                 </div>
 
-                <p className="sr-only">{ detailProductReviews.average } out of 5 stars</p>
+                <p className="sr-only">{ product?.rating.rate } out of 5 stars</p>
                 <p className="ml-3 text-sm font-medium text-red-600">
-                  { detailProductReviews.totalCount } reviews
+                  { product?.rating.count } opiniones
                 </p>
               </div>
             </div>
@@ -213,29 +197,11 @@ export default function Detail() {
 
           {/* Description and details */}
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
-            <div className="space-y-6">
-              <p className="text-base text-gray-900">{ detailProduct.description }</p>
-            </div>
-
             <div className="mt-10">
-              <h3 className="text-sm font-medium text-gray-900">Caracteristicas</h3>
-
-              <div className="mt-4">
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  { detailProduct.highlights.map((highlight: string) => (
-                    <li key={ highlight } className="text-gray-400">
-                      <span className="text-gray-600">{ highlight }</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Detalles</h2>
+              <h2 className="text-sm font-medium text-gray-900">Descripci´pon</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{ detailProduct.details }</p>
+                <p className="text-sm text-gray-600">{ product?.description }</p>
               </div>
             </div>
           </div>

@@ -38,7 +38,7 @@ export default function Dashboard() {
   const [visibleProducts, setVisibleProducts] = useState<IShoppingProducts[]>([]); 
 
   const getProducts = async () => {
-    await ProductService.getProductsByOffset().then((response) => {
+    await ProductService.getProducts().then((response) => {
       const nextProducts = response.slice(currentIndex, currentIndex + 5); 
       setProducts(response);
       setVisibleProducts(nextProducts);

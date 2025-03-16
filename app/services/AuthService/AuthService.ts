@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+const API_URL = process.env.REACT_APP_URL;
 
 /* Interfaces */
 import { 
@@ -6,13 +7,12 @@ import {
     IAuthRegisterUser 
 } from "@Interfaces/IAuth";
 
+/* Constants */
 import { MessagesServices } from '@/app/constants/Service/Service';
 
 const headers = {
     "Content-Type": "application/json"
 }
-
-const API_URL = process.env.REACT_APP_URL;
 
 const AuthService = {
     setInformation: (key: string, request: any) => localStorage.setItem(key, JSON.stringify(request)),
