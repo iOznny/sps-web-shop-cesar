@@ -189,13 +189,13 @@ export default function Dashboard() {
         </section>
 
         {/* Load More Items */}
-        <section aria-labelledby="products-heading" className="pt-6 pb-24">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-          <button onClick={ () => loadMoreProducts() } className="mb-10 rounded-md border border-red-500 bg-white py-2 text-sm text-black hover:bg-red-100 cursor-pointer ">
-              Ver más articulos
-            </button>
-          </div>
-        </section>
+        <div className="pb-24 text-right">
+          <button 
+            onClick={ () => loadMoreProducts() } 
+            className="mb-10 rounded-md border border-red-500 bg-white px-10 py-2 text-sm text-black hover:bg-red-100 cursor-pointer">
+            Ver más articulos
+          </button>
+        </div>
       </main>
     </div>
   )
