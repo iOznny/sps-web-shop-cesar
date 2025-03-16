@@ -4,3 +4,4 @@ export { default as Product } from './Product/Product';
 export { default as AuthWrapper } from './Layout/Layout';
 export { default as Pagination } from './Pagination/Pagination';
 export { default as ProductItem } from './Product/Product';
+export { default as SnackbarAlert } from './Snackbar/Snackbar';
