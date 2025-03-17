@@ -61,6 +61,7 @@ const AuthService = {
     },
     logout: () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
     }
 }
 

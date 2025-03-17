@@ -1,7 +1,6 @@
 export interface IDashboardSortOptions {
+    value: string;
     name: string;
-    href: string;
-    current: boolean;
 }
 
 export interface IDashboardFilters {
