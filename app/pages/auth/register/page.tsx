@@ -8,6 +8,7 @@ import Image from "next/image";
 
 /* Utils */
 import { authRegisterValidator } from "@Utils/validators";
+import { RouteNavigatorNavbar } from "@/app/utils/router";
 
 /* Interfaces */
 import { IAuthMessageResponse, IAuthRegisterUser } from "@Interfaces/IAuth";
@@ -17,7 +18,6 @@ import { AuthService } from "@Services/index";
 
 /* Components */
 import { SnackbarAlert } from "@Components/index";
-import { RouteNavigatorNavbar } from "@/app/utils/router";
 
 export default function Register() {
   const router = useRouter();
