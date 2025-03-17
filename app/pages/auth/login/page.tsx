@@ -1,74 +1,113 @@
+'use client';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+
 import Image from "next/image";
 
+/* Utils */
+import { authLoginValidator } from "@Utils/validators";
+import { RouteNavigatorNavbar } from "@Utils/router";
+
+/* Components */
+import { SnackbarAlert } from "@Components/index";
+
+/* Services */
+import { AuthService } from "@Services/index";
+
+/* Interfaces */
+import { IAuthLoginUser, IAuthMessageResponse } from "@Interfaces/IAuth";
+
 export default function Login() {
+  const router = useRouter();
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [messageOnSubmit, setMessageOnSubmit] = useState<IAuthMessageResponse>({ message: '', severity: "success" });
+
+  const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm({
+    resolver: zodResolver(authLoginValidator),
+  });
+
+  const onSubmit = (request: IAuthLoginUser) => {
+    AuthService.login(request).then(() => {
+      setMessageOnSubmit({
+        message: 'Bienvenido a Eagle Wear',
+        severity: 'success'
+      });
+
+      router.push('/');
+    }, (error: string) => {
+      setMessageOnSubmit({
+        message: error,
+        severity: 'error'
+      });
+    });
+  };
+
   return (
-    <div className="w-full h-screen bg-white flex flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="flex-1 overflow-y-auto sm:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <>
+      <div className="w-full h-screen bg-white flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex-1 overflow-y-auto sm:px-8">
           <Image 
-            src="/assets/eagle-wear.png"
-            alt="Eagle Wear"
-            width={300}
-            height={300}
-            className="mx-auto h-auto w-auto"
+            src="/assets/eagle-wear.png" 
+            alt="Eagle Wear" 
+            width={300} 
+            height={300} 
+            className="mx-auto" 
           />
 
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Inicia sesión en tu cuenta
-          </h2>
+          <h2 className="mt-10 text-center text-2xl font-bold text-gray-900">Iniciar Sesión</h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={ handleSubmit((data) => onSubmit({ ...data })) } className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Correo electrónico
-              </label>
+              <label htmlFor="username" className="block text-sm font-medium text-black">Nombre de Usuario</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Usuario"
+                value={'johnd'}
+                {...register("username")}
+                className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
+              />
 
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="a@b.c"
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
+              { errors.username && <p className="text-red-500 text-sm">{ errors.username.message }</p> }
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Contraseña
-                </label>
-              </div>
-              
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="********"
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
+              <label htmlFor="password" className="block text-sm font-medium text-black">Contraseña</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="********"
+                value={'m38rmF$'}
+                {...register("password")}
+                className="block w-full rounded-md px-3 py-1.5 border outline-none text-black"
+              />
+
+              { errors.password && <p className="text-red-500 text-sm">{ errors.password.message }</p> }
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-red-300 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
-                Iniciar Sesión
-              </button>
-            </div>
+            <button onClick={() => setShowSnackbar(true) } type="submit" className="w-full bg-red-500 text-white py-2 rounded-md" disabled={ isSubmitting }>
+              { isSubmitting ? "Cargando..." : "Iniciar Sesión" }
+            </button>
           </form>
+
+          <p className="mt-10 text-center text-neutral-400">
+            Aun no tienes cuenta, registrate {' '}
+            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.register) }>aquí</span>.
+          </p>
         </div>
       </div>
-    </div>
+
+      <SnackbarAlert
+        open={ showSnackbar }
+        message={ messageOnSubmit.message }
+        severity={ messageOnSubmit.severity }
+        duration={ 4000 }
+        onClose={() => setShowSnackbar(false) }
+      />
+    </>
   );
 }

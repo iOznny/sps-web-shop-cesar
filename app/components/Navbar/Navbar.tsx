@@ -1,20 +1,21 @@
 'use client';
-import { Disclosure, DisclosureButton, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 /* Next */
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
 
 /* Utils */
 import { RouteNavigatorNavbar } from '@Utils/router';
 
-/* Hooks */
-import { useClassNames } from '@Hooks/index';
+/* Services */
+import { AuthService } from '@Services/index';
 
-const Navbar = () => {    
-    const classNames = useClassNames();
-
+export default function Navbar() {    
+    const router = useRouter();
+    
     return (
         <>
             <Disclosure as="nav" className="bg-white">
@@ -31,7 +32,6 @@ const Navbar = () => {
 
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="flex shrink-0 items-center">
-                                
                                 <Link href="/">
                                     <Image    
                                         src="/assets/eagle-wear.png"
@@ -41,16 +41,11 @@ const Navbar = () => {
                                         className="mx-auto h-10 w-auto"
                                     />
                                 </Link>
-
                             </div>
 
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.register }>Registro</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.login }>Login</Link>
                                     <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.home }>Inicio</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.detail }>Detail</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.shop }>Shopping</Link>
                                 </div>
                             </div>
                         </div>
@@ -65,9 +60,6 @@ const Navbar = () => {
                             {/* Profile Dropdown */}
                             <Menu as="div" className="relative ml-3">
                                 <MenuButton className="relative flex rounded-full">
-                                    <span className="absolute -inset-1.5" />
-                                    <span className="sr-only">Open user menu</span>
-
                                     <div className="flex -space-x-1 overflow-hidden">
                                         <Image
                                             src={'/assets/profiles/profile.avif'}
@@ -107,48 +99,48 @@ const Navbar = () => {
                                         data-leave:duration-75 
                                         data-leave:ease-in"
                                 >
-                                    
+
                                     <MenuItem>
                                         <a 
-                                            href={ RouteNavigatorNavbar.logout }
                                             onClick={ () => {
-                                                console.log("logout");
-                                                /* localStorage.removeItem('token');
-                                                setIsAuthenticated(false); */
+                                                AuthService.logout();
+                                                router.push(RouteNavigatorNavbar.login);
                                             }}
                                             className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">
                                             Cerrar Sesión
                                         </a>
-                                    </MenuItem>
+                                    </MenuItem> 
                                 </MenuItems>
                             </Menu>
                         </div>
                     </div>
                 </div>
 
-                {/* <DisclosurePanel className="sm:hidden"> 
+                <DisclosurePanel className="sm:hidden"> 
                     <div className="space-y-1 px-2 pt-2 pb-3">
-                        { navigation.map((item) => (
-                            <DisclosureButton
-                                key={ item.name }
-                                as="a"
-                                href={ item.href }
-                                aria-current={ item.current ? 'page' : undefined }
-                                className={ classNames(
-                                    item.current ? 
-                                    'bg-black text-white' : 
-                                    'hover:bg-gray-200 hover:text-black',
-                                    'block rounded-md px-3 py-2 text-base font-medium',
-                                )}
-                            >
-                                { item.name }
-                            </DisclosureButton>
-                        ))}
+                        <DisclosureButton
+                            key={ 'Home' }
+                            as="a"
+                            href={ RouteNavigatorNavbar.home }
+                            className={ 'bg-gray-200 text-black hover:bg-red-200 hover:text-black block rounded-md px-3 py-2 text-base font-medium'}
+                        >
+                            Inicio
+                        </DisclosureButton>
+
+                        <DisclosureButton
+                            key={ 'Logout' }
+                            as="a"
+                            onClick={ () => {
+                                AuthService.logout();
+                                router.push(RouteNavigatorNavbar.login);
+                            }}
+                            className={ 'bg-gray-200 text-black hover:bg-red-200 hover:text-black block rounded-md px-3 py-2 text-base font-medium'}
+                        >
+                            Cerrar Sesión
+                        </DisclosureButton>
                     </div>
-                </DisclosurePanel> */}
+                </DisclosurePanel>
             </Disclosure>
         </>
-    )
+    );
 }
-
-export default Navbar;
