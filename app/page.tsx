@@ -1,6 +1,7 @@
 'use client'
 import { ChevronDownIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Disclosure,
@@ -31,7 +32,11 @@ import { ProductService } from '@Services/index';
 import { IShoppingProducts } from '@Interfaces/IShopping';
 import { IDashboardFilters } from '@Interfaces/IDashboard';
 
+/* Utils */
+import { RouteNavigatorNavbar } from './utils/router';
+
 export default function Dashboard() {
+  const router = useRouter();
   const classNames = useClassNames();
   const [currentIndex, setCurrentIndex] = useState(0);
   
@@ -44,6 +49,15 @@ export default function Dashboard() {
   const [sort, setSort] = useState("none");
   const [dashboardFilter, setDashboardFilter] = useState<IDashboardFilters[]>(dashboardFilters);
   const [categories, setCategories] = useState<string[]>([]);
+
+  const validateToken = () => {
+    let token = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
+
+    if (!token || !user) {
+      router.push(RouteNavigatorNavbar.login);  
+    }
+  };
 
   const getProducts = async () => {
     await ProductService.getProducts().then((response) => {
@@ -86,6 +100,7 @@ export default function Dashboard() {
   useEffect(() => {
     getProducts();
     loadMoreProducts();
+    validateToken();
   }, []);
 
   return (
