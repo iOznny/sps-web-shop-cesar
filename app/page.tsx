@@ -1,5 +1,6 @@
 'use client'
 import { ChevronDownIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
+import { useEffect, useState } from 'react';
 
 import {
   Disclosure,
@@ -24,9 +25,37 @@ import { Pagination, ProductItem } from '@Components/index';
 /* Hooks */
 import { useClassNames } from '@Hooks/index';
 
+/* Services */
+import { ProductService } from './services';
+
+import { IShoppingProducts } from './interfaces/IShopping';
+
 export default function Dashboard() {
   const classNames = useClassNames();
-  
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [products, setProducts] = useState<IShoppingProducts[]>([]);
+  const [visibleProducts, setVisibleProducts] = useState<IShoppingProducts[]>([]); 
+
+  const getProducts = async () => {
+    await ProductService.getProducts().then((response) => {
+      const nextProducts = response.slice(currentIndex, currentIndex + 5); 
+      setProducts(response);
+      setVisibleProducts(nextProducts);
+    });
+  }
+
+  const loadMoreProducts = () => {
+    const nextProducts = products.slice(currentIndex, currentIndex + 5); 
+    setVisibleProducts([...visibleProducts, ...nextProducts]);
+    setCurrentIndex(currentIndex + 5);
+  };
+
+  useEffect(() => {
+    getProducts();
+    loadMoreProducts();
+  }, []);
+
   return (
     <div className="bg-white">
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -149,7 +178,7 @@ export default function Dashboard() {
               <div className="bg-white">
                 <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                   <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    { shoppingProducts.map((product, index) => (
+                    { visibleProducts.map((product, index) => (
                       <ProductItem product={ product } key={ index } />
                     ))}
                   </div>
@@ -157,9 +186,16 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-
-          <Pagination />
         </section>
+
+        {/* Load More Items */}
+        <div className="pb-24 text-right">
+          <button 
+            onClick={ () => loadMoreProducts() } 
+            className="mb-10 rounded-md border border-red-500 bg-white px-10 py-2 text-sm text-black hover:bg-red-100 cursor-pointer">
+            Ver más articulos
+          </button>
+        </div>
       </main>
     </div>
   )
