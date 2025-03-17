@@ -30,6 +30,7 @@ export default function Login() {
 
   const onSubmit = (request: IAuthLoginUser) => {
     AuthService.login(request).then(() => {
+      setShowSnackbar(true);
       setMessageOnSubmit({
         message: 'Bienvenido a Eagle Wear',
         severity: 'success'
@@ -37,6 +38,7 @@ export default function Login() {
 
       router.push('/');
     }, (error: string) => {
+      setShowSnackbar(true);
       setMessageOnSubmit({
         message: error,
         severity: 'error'
@@ -89,14 +91,14 @@ export default function Login() {
               { errors.password && <p className="text-red-500 text-sm">{ errors.password.message }</p> }
             </div>
 
-            <button onClick={() => setShowSnackbar(true) } type="submit" className="w-full bg-red-500 text-white py-2 rounded-md" disabled={ isSubmitting }>
+            <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-md" disabled={ isSubmitting }>
               { isSubmitting ? "Cargando..." : "Iniciar Sesión" }
             </button>
           </form>
 
           <p className="mt-10 text-center text-neutral-400">
             Aun no tienes cuenta, registrate {' '}
-            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.register) }>aquí</span>.
+            <span className="text-red-400 cursor-pointer" onClick={() => router.push(RouteNavigatorNavbar.register) }>aquí</span>.
           </p>
         </div>
       </div>
@@ -105,7 +107,7 @@ export default function Login() {
         open={ showSnackbar }
         message={ messageOnSubmit.message }
         severity={ messageOnSubmit.severity }
-        duration={ 4000 }
+        duration={ 6000 }
         onClose={() => setShowSnackbar(false) }
       />
     </>

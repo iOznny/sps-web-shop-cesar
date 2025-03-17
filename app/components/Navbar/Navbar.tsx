@@ -12,13 +12,30 @@ import { RouteNavigatorNavbar } from '@Utils/router';
 
 /* Services */
 import { AuthService } from '@Services/index';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {    
     const router = useRouter();
-    
+    const [isVisible, setIsVisible] = useState(false);
+
+    const validateToken = () => {
+        let token = localStorage.getItem('token');
+        let user = localStorage.getItem('user');
+        (token || user) ? setIsVisible(true) : setIsVisible(false);
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            validateToken();
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+
     return (
         <>
-            <Disclosure as="nav" className="bg-white">
+            <Disclosure as="nav" className={`bg-white ${ isVisible ? "show" : "hidden" }`} onBlur={() => validateToken() }>
                 <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div className="relative flex h-16 items-center justify-between">
                         <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -68,6 +85,7 @@ export default function Navbar() {
                                             height={100}
                                             className="inline-block size-8 rounded-full ring-1 ring-white"
                                         />
+
                                         <Image
                                             src={'/assets/sps-logo.png'}
                                             alt='Profile Image'
@@ -100,16 +118,29 @@ export default function Navbar() {
                                         data-leave:ease-in"
                                 >
 
-                                    <MenuItem>
-                                        <a 
-                                            onClick={ () => {
-                                                AuthService.logout();
-                                                router.push(RouteNavigatorNavbar.login);
-                                            }}
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">
-                                            Cerrar Sesión
-                                        </a>
-                                    </MenuItem> 
+                                    { isVisible ? 
+                                            <MenuItem>
+                                            <a 
+                                                onClick={ () => {
+                                                    AuthService.logout();
+                                                    router.push(RouteNavigatorNavbar.login);
+                                                }}
+                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">
+                                                Cerrar Sesión
+                                            </a>
+                                        </MenuItem> 
+                                        :
+                                        <MenuItem>
+                                            <a 
+                                                onClick={ () => {
+                                                    AuthService.logout();
+                                                    router.push(RouteNavigatorNavbar.login);
+                                                }}
+                                                className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden">
+                                                Iniciar Sesión
+                                            </a>
+                                        </MenuItem> 
+                                    }
                                 </MenuItems>
                             </Menu>
                         </div>
