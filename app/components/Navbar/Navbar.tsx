@@ -32,7 +32,6 @@ export default function Navbar() {
         return () => clearInterval(interval);
     }, []);
 
-
     return (
         <>
             <Disclosure as="nav" className={`bg-white ${ isVisible ? "show" : "hidden" }`} onBlur={() => validateToken() }>
