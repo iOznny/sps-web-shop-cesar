@@ -110,7 +110,7 @@ export default function Register() {
 
           <p className="mt-10 text-center text-neutral-400">
             ¿Ya tienes cuenta? Inicia sesión {' '}
-            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.login) }>aquí</span>.
+            <span className="text-red-400 cursor-pointer" onClick={() => router.push(RouteNavigatorNavbar.login) }>aquí</span>.
           </p>
         </div>
       </div>
