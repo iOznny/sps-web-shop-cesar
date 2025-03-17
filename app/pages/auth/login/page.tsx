@@ -8,6 +8,7 @@ import Image from "next/image";
 
 /* Utils */
 import { authLoginValidator } from "@Utils/validators";
+import { RouteNavigatorNavbar } from "@Utils/router";
 
 /* Components */
 import { SnackbarAlert } from "@Components/index";
@@ -92,6 +93,11 @@ export default function Login() {
               { isSubmitting ? "Cargando..." : "Iniciar Sesión" }
             </button>
           </form>
+
+          <p className="mt-10 text-center text-neutral-400">
+            Aun no tienes cuenta, registrate {' '}
+            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.register) }>aquí</span>.
+          </p>
         </div>
       </div>
 

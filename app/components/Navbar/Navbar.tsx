@@ -45,8 +45,6 @@ export default function Navbar() {
 
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.register }>Registro</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.login }>Login</Link>
                                     <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.home }>Inicio</Link>
                                 </div>
                             </div>
