@@ -32,7 +32,6 @@ export default function Navbar() {
 
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="flex shrink-0 items-center">
-                                
                                 <Link href="/">
                                     <Image    
                                         src="/assets/eagle-wear.png"
@@ -42,7 +41,6 @@ export default function Navbar() {
                                         className="mx-auto h-10 w-auto"
                                     />
                                 </Link>
-
                             </div>
 
                             <div className="hidden sm:ml-6 sm:block">
@@ -50,8 +48,6 @@ export default function Navbar() {
                                     <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.register }>Registro</Link>
                                     <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.login }>Login</Link>
                                     <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.home }>Inicio</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.detail }>Detail</Link>
-                                    <Link className='rounded-md hover:bg-red-100 text-black px-3 py-2 text-sm font-medium' href={ RouteNavigatorNavbar.shop }>Shopping</Link>
                                 </div>
                             </div>
                         </div>

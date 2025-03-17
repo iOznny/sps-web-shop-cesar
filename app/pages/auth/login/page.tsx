@@ -16,7 +16,7 @@ import { SnackbarAlert } from "@Components/index";
 import { AuthService } from "@Services/index";
 
 /* Interfaces */
-import { IAuthLoginUser, IAuthMessageResponse, IAuthRegisterUser } from "@Interfaces/IAuth";
+import { IAuthLoginUser, IAuthMessageResponse } from "@Interfaces/IAuth";
 
 export default function Login() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function Login() {
   const onSubmit = (request: IAuthLoginUser) => {
     AuthService.login(request).then(() => {
       setMessageOnSubmit({
-        message: 'Bienvenido, @',
+        message: 'Bienvenido a Eagle Wear',
         severity: 'success'
       });
 
@@ -99,7 +99,7 @@ export default function Login() {
         open={ showSnackbar }
         message={ messageOnSubmit.message }
         severity={ messageOnSubmit.severity }
-        duration={ 6000 }
+        duration={ 4000 }
         onClose={() => setShowSnackbar(false) }
       />
     </>
