@@ -136,7 +136,8 @@ export default function Dashboard() {
             {/* Filters */}
             <div className="hidden lg:block">
               {/* Categories */}
-              <div className='text-left'>
+              <h3 className="text-black text-sm mb-3">Categoria</h3>
+              <div>
                 <select
                   id="categorySelect"
                   onChange={(e) => setFilterCategories(e.target.value)}
