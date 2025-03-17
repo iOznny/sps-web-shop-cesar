@@ -77,7 +77,7 @@ export default function Detail() {
 
               <div className="flex items-center">
                 <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
+                  { [0, 1, 2, 3, 4].map((rating) => (
                     <StarIcon
                       key={ rating }
                       aria-hidden="true"
@@ -177,12 +177,12 @@ export default function Detail() {
               <button
                 type="button"
                 onClick={() => {
-                  addToCart(shoppingProducts[0]);
+                  addToCart(product!);
                   setShowSnackbar(true);
                 }}
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-500 px-8 py-3 text-base font-medium text-white cursor-pointer"
               >
-                Agregar {' '} <span> <ShoppingCartIcon className="size-4" /></span>
+                Agregar {' '} <span><ShoppingCartIcon className="size-4" /></span>
               </button>
 
               <SnackbarAlert
@@ -198,7 +198,7 @@ export default function Detail() {
           {/* Description and details */}
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
             <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Descripci´pon</h2>
+              <h2 className="text-sm font-medium text-gray-900">Descripción</h2>
 
               <div className="mt-4 space-y-6">
                 <p className="text-sm text-gray-600">{ product?.description }</p>

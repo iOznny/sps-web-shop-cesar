@@ -8,6 +8,7 @@ import Image from "next/image";
 
 /* Utils */
 import { authLoginValidator } from "@Utils/validators";
+import { RouteNavigatorNavbar } from "@Utils/router";
 
 /* Components */
 import { SnackbarAlert } from "@Components/index";
@@ -16,7 +17,7 @@ import { SnackbarAlert } from "@Components/index";
 import { AuthService } from "@Services/index";
 
 /* Interfaces */
-import { IAuthLoginUser, IAuthMessageResponse, IAuthRegisterUser } from "@Interfaces/IAuth";
+import { IAuthLoginUser, IAuthMessageResponse } from "@Interfaces/IAuth";
 
 export default function Login() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Login() {
   const onSubmit = (request: IAuthLoginUser) => {
     AuthService.login(request).then(() => {
       setMessageOnSubmit({
-        message: 'Bienvenido, @',
+        message: 'Bienvenido a Eagle Wear',
         severity: 'success'
       });
 
@@ -92,6 +93,11 @@ export default function Login() {
               { isSubmitting ? "Cargando..." : "Iniciar Sesión" }
             </button>
           </form>
+
+          <p className="mt-10 text-center text-neutral-400">
+            Aun no tienes cuenta, registrate {' '}
+            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.register) }>aquí</span>.
+          </p>
         </div>
       </div>
 
@@ -99,7 +105,7 @@ export default function Login() {
         open={ showSnackbar }
         message={ messageOnSubmit.message }
         severity={ messageOnSubmit.severity }
-        duration={ 6000 }
+        duration={ 4000 }
         onClose={() => setShowSnackbar(false) }
       />
     </>

@@ -17,39 +17,71 @@ import {
   dashboardFilters, 
   dashboardSortOptions,
 } from '@/app/constants/Dashboard/Dashboard';
-import { shoppingProducts } from '@/app/constants/Shopping/Shopping';
 
 /* Components */
-import { Pagination, ProductItem } from '@Components/index';
+import { ProductItem } from '@Components/index';
 
 /* Hooks */
 import { useClassNames } from '@Hooks/index';
 
 /* Services */
-import { ProductService } from './services';
+import { ProductService } from '@Services/index';
 
-import { IShoppingProducts } from './interfaces/IShopping';
+/* Interfaces */
+import { IShoppingProducts } from '@Interfaces/IShopping';
+import { IDashboardFilters } from '@Interfaces/IDashboard';
 
 export default function Dashboard() {
   const classNames = useClassNames();
-
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  /* Products */
   const [products, setProducts] = useState<IShoppingProducts[]>([]);
   const [visibleProducts, setVisibleProducts] = useState<IShoppingProducts[]>([]); 
 
+  /* Filters */
+  const [filterCategories, setFilterCategories] = useState("all");
+  const [sort, setSort] = useState("none");
+  const [dashboardFilter, setDashboardFilter] = useState<IDashboardFilters[]>(dashboardFilters);
+  const [categories, setCategories] = useState<string[]>([]);
+
   const getProducts = async () => {
     await ProductService.getProducts().then((response) => {
-      const nextProducts = response.slice(currentIndex, currentIndex + 5); 
+      const products: IShoppingProducts[] = response.slice(currentIndex, currentIndex + 5); 
+
       setProducts(response);
-      setVisibleProducts(nextProducts);
+      setVisibleProducts(products);
     });
+  }
+
+  const getUniqueCategories = (products: IShoppingProducts[]) => {
+    const categories = [...new Set(products.map(product => product.category))];
+    return categories;
   }
 
   const loadMoreProducts = () => {
     const nextProducts = products.slice(currentIndex, currentIndex + 5); 
+    
     setVisibleProducts([...visibleProducts, ...nextProducts]);
     setCurrentIndex(currentIndex + 5);
   };
+
+  useEffect(() => {
+    const filteredProducts = visibleProducts
+    .filter(product => filterCategories === "all" || product.category === filterCategories)
+    .sort((a, b) => {
+      if (sort === "low-to-high") return a.price - b.price;
+      if (sort === "high-to-low") return b.price - a.price;
+      if (sort === "best-rating") return b.rating.rate - a.rating.rate;
+      return 0;
+    });
+  
+    setVisibleProducts(filteredProducts);
+  }, [filterCategories, sort])
+  
+  useEffect(() => {
+    setCategories(getUniqueCategories(products));
+  }, [visibleProducts]);
 
   useEffect(() => {
     getProducts();
@@ -83,11 +115,9 @@ export default function Dashboard() {
                   { dashboardSortOptions.map((option) => (
                     <MenuItem key={ option.name }>
                       <a
-                        href={ option.href }
+                        onClick={() => setSort(option.value)}
                         className={ classNames(
-                          option.current ? 
-                          'font-medium text-gray-900' : 'text-gray-500',
-                          'block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:outline-hidden',
+                          'font-medium text-black block px-4 py-2 text-sm data-focus:bg-gray-100 data-focus:outline-hidden',
                         )}
                       >
                         { option.name }
@@ -104,10 +134,24 @@ export default function Dashboard() {
         <section aria-labelledby="products-heading" className="pt-6 pb-24">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Filters */}
-            <form className="hidden lg:block">
-              <h3 className="text-gray-600">Categorias</h3>
+            <div className="hidden lg:block">
+              {/* Categories */}
+              <h3 className="text-black text-sm mb-3">Categoria</h3>
+              <div>
+                <select
+                  id="categorySelect"
+                  onChange={(e) => setFilterCategories(e.target.value)}
+                  className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                >
+                  { categories.map((category, index) => (
+                    <option key={ index } value={ category } className='text-black'>
+                      { category }
+                    </option>
+                  ))}
+                </select>
+              </div>
               
-              { dashboardFilters.map((section) => (
+              { dashboardFilter.map((section) => (
                 <Disclosure key={ section.id } as="div" className="border-b border-gray-200 py-6" defaultOpen={true}>
                   <h3 className="-my-3 flow-root">
                     <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
@@ -171,7 +215,7 @@ export default function Dashboard() {
                   </DisclosurePanel>
                 </Disclosure>
               ))}
-            </form>
+            </div>
 
             {/* Product Grid */}
             <div className="lg:col-span-3">
@@ -192,7 +236,8 @@ export default function Dashboard() {
         <div className="pb-24 text-right">
           <button 
             onClick={ () => loadMoreProducts() } 
-            className="mb-10 rounded-md border border-red-500 bg-white px-10 py-2 text-sm text-black hover:bg-red-100 cursor-pointer">
+            disabled={ visibleProducts.length >=  products.length }
+            className="mb-10 rounded-md border border-red-500 bg-white px-10 py-2 text-sm text-black hover:bg-red-100 cursor-pointer disabled:bg-gray-300 disabled:border-gray-300 disabled:cursor-not-allowed">
             Ver más articulos
           </button>
         </div>

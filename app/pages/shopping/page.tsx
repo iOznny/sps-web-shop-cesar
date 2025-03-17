@@ -40,7 +40,7 @@ export default function Shopping() {
                         src={ product.image } 
                         width={100}
                         height={100}
-                        className="size-full object-cover" 
+                        className="size-full object-contain" 
                       />
                     </div>
 
@@ -52,7 +52,7 @@ export default function Shopping() {
                         </div>
 
                         <p className="mt-1 text-sm text-gray-500">{ product.category }</p>
-                        <p className="mt-1 text-sm text-gray-500">Ranking: { product.rating.rate }</p>
+                        <p className="mt-1 text-sm text-gray-500">Puntuación: { product.rating.rate }</p>
                       </div>
                       
                       <div className="flex flex-1 items-end justify-between text-sm">

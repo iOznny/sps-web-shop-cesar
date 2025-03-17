@@ -17,6 +17,7 @@ import { AuthService } from "@Services/index";
 
 /* Components */
 import { SnackbarAlert } from "@Components/index";
+import { RouteNavigatorNavbar } from "@/app/utils/router";
 
 export default function Register() {
   const router = useRouter();
@@ -106,6 +107,11 @@ export default function Register() {
               { isSubmitting ? "Cargando..." : "Registrarse" }
             </button>
           </form>
+
+          <p className="mt-10 text-center text-neutral-400">
+            ¿Ya tienes cuenta? Inicia sesión {' '}
+            <span className="text-red-400" onClick={() => router.push(RouteNavigatorNavbar.login) }>aquí</span>.
+          </p>
         </div>
       </div>
 
