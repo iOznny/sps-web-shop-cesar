@@ -99,7 +99,7 @@ export default function Dashboard() {
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                  Filtrar
+                  Ordenar por:
                   <ChevronDownIcon
                     aria-hidden="true"
                     className="-mr-1 ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -141,10 +141,10 @@ export default function Dashboard() {
                 <select
                   id="categorySelect"
                   onChange={(e) => setFilterCategories(e.target.value)}
-                  className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                  className="mt-1 block capitalize w-full p-2 border text-black border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
                 >
                   { categories.map((category, index) => (
-                    <option key={ index } value={ category } className='text-black'>
+                    <option key={ index } value={ category } className='text-black capitalize'>
                       { category }
                     </option>
                   ))}
@@ -219,15 +219,7 @@ export default function Dashboard() {
 
             {/* Product Grid */}
             <div className="lg:col-span-3">
-              <div className="bg-white">
-                <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                  <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    { visibleProducts.map((product, index) => (
-                      <ProductItem product={ product } key={ index } />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ProductItem products={ visibleProducts } />
             </div>
           </div>
         </section>

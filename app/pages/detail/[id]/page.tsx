@@ -91,7 +91,7 @@ export default function Detail() {
 
                 <p className="sr-only">{ product?.rating.rate } out of 5 stars</p>
                 <p className="ml-3 text-sm font-medium text-red-600">
-                  { product?.rating.count } opiniones
+                  { product?.rating.count } calificaciones
                 </p>
               </div>
             </div>
@@ -197,11 +197,37 @@ export default function Detail() {
 
           {/* Description and details */}
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
+            <div>
+              <h3 className="sr-only">Descripción</h3>
+
+              <div className="space-y-6">
+                <p className="text-base text-gray-900">{product?.description}</p>
+              </div>
+            </div>
+
             <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Descripción</h2>
+              <h3 className="text-sm font-medium text-gray-900">Caracteristicas</h3>
+
+              <div className="mt-4">
+                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                  { detailProduct.highlights.map((highlight) => (
+                    <li key={ highlight } className="text-gray-400">
+                      <span className="text-gray-600">{ highlight }</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-10">
+              <h2 className="text-sm font-medium text-gray-900">Acerca de este artículo</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{ product?.description }</p>
+                <p className="text-sm text-gray-600">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                  Nam, tenetur neque magnam aut maiores quaerat doloribus aperiam architecto nisi id est iusto quis eligendi 
+                  culpa eos numquam ad quisquam consectetur.
+                </p>
               </div>
             </div>
           </div>
