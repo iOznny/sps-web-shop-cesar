@@ -1,4 +1,4 @@
-// import { useClassNames } from '@/app/hooks';
+import useClassNames from "../app/hooks/useClassNames";
 
 describe('useClassNames', () => {
     test('test run unit testing', () => {
@@ -6,7 +6,7 @@ describe('useClassNames', () => {
         expect(className[0]).toBe('class1');
     });
 
-    /* test('should join class names correctly', () => {
+    test('should join class names correctly', () => {
         const classNames = useClassNames();
         
         expect(classNames('class1', 'class2')).toBe('class1 class2');
@@ -21,5 +21,5 @@ describe('useClassNames', () => {
         const classNames = useClassNames();
         
         expect(classNames()).toBe('');
-    }); */
+    });
 });
